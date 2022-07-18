@@ -1,0 +1,50 @@
+<br/>
+
+<div class="mx-auto" style="max-width: 1000px;" *ngIf="searchFormGroup">
+  <form [formGroup]="searchFormGroup" (ngSubmit)="getAccount()">
+    <div class="input-group">
+      <input formControlName="accountNumber" class="form-control me-2" type="number" placeholder="Search with account number" aria-label="Search">
+      <button class="btn btn-info">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+<br/>
+
+<ng-container *ngIf="account !== undefined; else failure">
+  <div class="mx-auto" style="max-width: 1000px;" *ngIf="account !== undefined">
+    <h3>Welcome <b>{{account.clientName}}</b></h3>
+
+    <p>You balance is : <b>{{account.balance | number : '1.2-2'}}</b></p>
+
+    <h3>List of all operations :</h3>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Operation type</th>
+        <th scope="col">Operation date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let operation of account.operations">
+        <td>{{operation.operationType}}</td>
+        <td>{{operation.operationDate | date : 'dd/MM/yyyy HH:mm'}}</td>
+        <td>{{operation.amount | number : '1.2-2'}}</td>
+        <td>{{operation.description}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<ng-template #failure>
+  <div class="mx-auto" style="max-width: 1000px;">
+    <p class="text-danger">{{errorMessage}}</p>
+  </div>
+</ng-template>
+
